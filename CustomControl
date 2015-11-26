@@ -1,0 +1,28 @@
+package Chess;
+
+import javafx.event.EventHandler;
+import javafx.scene.control.Control;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+
+public class CustomControl extends Control{
+	//similar to previous custom controls but must handle more
+	//complex mouse interactions and key interactions
+	public CustomControl() {
+		// set a default skin and generate a game board
+		setSkin(new CustomControlSkin(this));
+		chessBoard = new Board();
+		getChildren().add(chessBoard);
+	}
+	
+	//override the resize method
+	@Override
+	public void resize(double width, double height) {
+		// update the size of the rectangle
+		super.resize(width, height);
+	}
+	
+	//private fields of the class
+	private Board chessBoard;
+}
