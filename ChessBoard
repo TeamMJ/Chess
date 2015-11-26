@@ -1,0 +1,47 @@
+package Chess;
+//imports
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Translate;
+
+	public class ChessBoard extends Pane {
+		public ChessBoard() {
+		//initalize the board: background, data structures, inital layout of pieces
+			board = new int[8][8];
+			pieces = new Piece[8][8];
+			
+			for(int i = 0; i < 8; i++){
+				for(int j = 0; j < 8; j++){
+					board[i][j] = EMPTY;
+					pieces[i][j] = null;
+				}
+			}
+			
+		}
+		
+	//reset game method
+	
+	//select piece method
+	
+	//move piece method
+	
+	//private fields
+	private int[][] board; // array that holds all pieces
+	private Piece[][] pieces; // array that holds all the render pieces
+	private Rectangle background; // background of the board
+	//board variables
+	private int board_width = 8;
+	private int board_height = 8;
+	// horizontal and vertical grid lines
+	private Line h1, h2, h3, h4, h5, h6, h7, h8, v1, v2, v3, v4, v5, v6, v7, v8;
+	private double cell_width, cell_height; // width and height of a cell
+	// translation of {one, two} cell {width, height}
+	private Translate ch_1, ch_2, ch_3, ch_4, ch_5, ch_6, ch_7, ch_8, cw_1, cw_2, cw_3, cw_4, cw_5, cw_6, cw_7, cw_8;
+	private int current_player; // who is the current player
+	// constants for the class
+	private final int EMPTY = 0;
+	private final int XPIECE = 1;
+	private final int YPIECE = 2;
+}
