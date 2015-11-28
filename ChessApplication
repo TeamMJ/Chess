@@ -7,23 +7,30 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 //class definition
 public class ChessApplication extends Application {
-	// overridden init method
+	// overridden initialize method
 	@Override
 	public void init() {
 	// initialize the layout, create a CustomControl and it to the layout
-		//initialise the stack pane and add a custom control to it
+		//initialize the stack pane and add a custom control to it
 		sp_mainlayout = new StackPane();
 		cc_custom = new CustomControl();
 		sp_mainlayout.getChildren().add(cc_custom);
 	}
+	
 	// overridden start method
 	@Override
 	public void start(Stage primaryStage) {
 		// set the title and scene, and show the stage
+		//primaryStage.setScene(new Scene(sp_mainlayout, 700, 700));
 		primaryStage.setTitle("Chess");
-		primaryStage.setScene(new Scene(sp_mainlayout, 600, 500));
+		sp_mainlayout.setId("pane");
+		Scene scene = new Scene(sp_mainlayout, 700, 700);
+		primaryStage.setScene(scene);
+		String css = this.getClass().getResource("chessGame.css").toExternalForm();
+		scene.getStylesheets().add(css);
 		primaryStage.show();
 	}
+	
 	// overridden stop method
 	@Override
 	public void stop() {}
