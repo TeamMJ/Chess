@@ -1,0 +1,44 @@
+#board{
+	-fx-background-image: url("images/chessBoard.png");
+	-fx-background-repeat: stretch;
+	-fx-background-position: center;
+}
+/*
+*   not working just yet
+*/
+#pawn{
+	-fx-background-image: url("images/pawn.png");
+	-fx-background-repeat: no-repeat;
+	-fx-image-size: 87 87;
+	-fx-background-position: center;
+}
+#rook{
+	-fx-background-image: url("images/rook.png");
+	-fx-background-repeat: no-repeat;
+	-fx-image-size: 87 87;
+	-fx-background-position: center;
+}
+#knight{
+	-fx-background-image: url("images/knight.png");
+	-fx-background-repeat: no-repeat;
+	-fx-image-size: 87 87;
+	-fx-background-position: center;
+}
+#bishop{
+	-fx-background-image: url("images/bishop.png");
+	-fx-background-repeat: no-repeat;
+	-fx-image-size: 87 87;
+	-fx-background-position: center;
+}
+#queen{
+	-fx-background-image: url("images/queen.png");
+	-fx-background-repeat: no-repeat;
+	-fx-image-size: 87 87;
+	-fx-background-position: center;
+}
+#king{
+	-fx-background-image: url("images/king.png");
+	-fx-background-repeat: no-repeat;
+	-fx-image-size: 87 87;
+	-fx-background-position: center;
+}
