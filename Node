@@ -6,12 +6,12 @@ import javafx.scene.shape.Rectangle;
 
 class Node extends StackPane {
     
-	public Node( double x, double y, double width, double height) {
+	public Node( double x, double y, double width, double height, Color type) {
         
     	// create rectangle
-        Rectangle rectangle = new Rectangle( width, height);
+        rectangle = new Rectangle( width, height);
         rectangle.setStroke( Color.BLACK);
-        rectangle.setFill( Color.DARKGREY);
+        rectangle.setFill( type);
 
         // set position
         setTranslateX(x);
@@ -20,5 +20,6 @@ class Node extends StackPane {
         // adds children
         getChildren().addAll( rectangle);
         
-    }        	
+    }
+	private Rectangle rectangle;
 }
