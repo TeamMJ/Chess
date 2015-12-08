@@ -11,40 +11,44 @@ import javafx.scene.transform.Translate;
 class Board extends Pane {
 	
 	public Board() {
-		board = new Node[r][c];
+		chessboard = new int[r][c];
+		pieces = new Pieces[r][c];
 		
 		for( int i = 0; i < r; i++){
-	    		
 	    	  for( int j = 0; j < c; j++){
-	    			
+	    			//add the board
+	    		  	chessboard[i][j] = EMPTY;
+	    		  	pieces[i][j] = null;
+	    		  
+	    		  	//add the black squares
 	    			if( i%2 == 0 && j%2 == 1 || i%2 == 1 && j%2 == 0){
 
-	    				//create node and set color black
-	    				Node node = new Node( i * cellWidth, j * cellHeight, cellWidth, cellHeight, Color.DIMGREY);
+	    		    	// create rectangle
+	    		        rectangle = new Rectangle(i*cellWidth, j*cellHeight, cellWidth, cellHeight);
+	    		        rectangle.setStroke( Color.BLACK);
+	    		        rectangle.setFill( Color.DIMGRAY);
+	    		        
+	    		        // adds children
+	    		        getChildren().addAll( rectangle);
 	                  
-	    				// add node to group
-	    				getChildren().add( node);
-
-	    				// add to board for further reference using an array
-	    				board[i][j] = node;
+	    				
 	    			}
 	    			
-	    			
-	    			else if( i%2 == 0 && j%2 ==0 || i%2 == 1 && j%2 ==1){
+	    			//add the white squares
+	    			else if( i%2 == 0 && j%2 == 0 || i%2 == 1 && j%2 == 1){
 
-	    				//create node and set color white
-	    				Node node = new Node( i * cellWidth, j * cellHeight, cellWidth, cellHeight, Color.WHITE);
-	                  
-	    				// add node to group
-	    				getChildren().add( node);
-
-	    				// add to board for further reference using an array
-	    				board[i][j] = node;
+	    		    	// create rectangle
+	    		        rectangle = new Rectangle(i*cellWidth, j*cellHeight, cellWidth, cellHeight);
+	    		        rectangle.setStroke( Color.BLACK);
+	    		        rectangle.setFill( Color.WHITE);
+	    		        
+	    		        // adds children
+	    		        getChildren().addAll( rectangle);
+	    		        
 	    			}
 	    		
-	    		}
-	    	
-	      }
+	    		}//inner loop
+	      }//outer loop
   
 	}
 	
@@ -59,36 +63,57 @@ class Board extends Pane {
 	
 	//resets game
 	public void resetGame() {
-		//reset white pieces
 		
+		//reset white pieces
+		for( int w = 0; w < r; w++){
+			//set white pawn image file
+			white_pawn = new Image("images/white_pawn.png");
+			ImageView imageView = new ImageView();
+			imageView.setImage(white_pawn);
+			
+			//place piece on row 2
+			//pieces[r][2] = 0;
+		}
 		
 		//reset black pieces
+		for( int b = 0; b < r; b++){
+			//set black pawn image file
+			black_pawn = new Image("images/black_pawn.png");
+			ImageView imageView = new ImageView();
+			imageView.setImage(black_pawn);
+			
+			//place pieces on row 7
+			//pieces[r][7] = 0;
+		}
 		
 	}
 	
 	//places pieces on board
 	public void placePiece(final double x, final double y) {
 		
-		for( int i = 0; i < r; i++){
-    		
-	    	  for( int j = 0; j < c; j++){
-	    		  
-	    	  }
-		}
+		// translate the x, y coordinates into cell indexes
+		int indexx = (int) (x / cellWidth);
+		int indexy = (int) (y / cellHeight);
 		
 	}
 	
 	//private fields
-	Node[][] board;
-	private double sceneWidth = 700;
-	private double sceneHeight = 700;
+	private int[][] chessboard;
+	private Pieces[][] pieces;
+	private Rectangle rectangle;
+	private double sceneWidth = 709;
+	private double sceneHeight = 709;
 	private int r = 8;
 	private int c = 8;
 	private double cellWidth = sceneWidth / r;
 	private double cellHeight = sceneHeight / c;
-	private Color colour;
-	private int EMPTY = 0;
-	private final int BLACK = 1;
-	private final int WHITE = 2;
+	private int EMPTY = 0; //int to show empty cell
+	private final int BLACK = 1; //int to set black
+	private final int WHITE = 2; //int to set white
+	private int current_player; // int to set player
+	
+	//images variables
+	private Image white_pawn;
+	private Image black_pawn;
 
 }
