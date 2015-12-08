@@ -1,19 +1,20 @@
 package Chess;
 
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.Group;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Translate;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
-class Board extends Pane {
+class ChessBoard extends Pane {
 	
-	public Board() {
+	public ChessBoard() {
+		//initialize the board
 		chessboard = new int[r][c];
 		pieces = new Pieces[r][c];
 		
+		//set board and data structure
 		for( int i = 0; i < r; i++){
 	    	  for( int j = 0; j < c; j++){
 	    			//add the board
@@ -25,13 +26,14 @@ class Board extends Pane {
 
 	    		    	// create rectangle
 	    		        rectangle = new Rectangle(i*cellWidth, j*cellHeight, cellWidth, cellHeight);
+	    		        
+	    		        //add colors
 	    		        rectangle.setStroke( Color.BLACK);
 	    		        rectangle.setFill( Color.DIMGRAY);
 	    		        
 	    		        // adds children
 	    		        getChildren().addAll( rectangle);
 	                  
-	    				
 	    			}
 	    			
 	    			//add the white squares
@@ -39,6 +41,8 @@ class Board extends Pane {
 
 	    		    	// create rectangle
 	    		        rectangle = new Rectangle(i*cellWidth, j*cellHeight, cellWidth, cellHeight);
+	    		        
+	    		        //add colors
 	    		        rectangle.setStroke( Color.BLACK);
 	    		        rectangle.setFill( Color.WHITE);
 	    		        
@@ -49,8 +53,67 @@ class Board extends Pane {
 	    		
 	    		}//inner loop
 	      }//outer loop
-  
-	}
+		
+		
+		//initialize the layout of the pieces
+		for( int i = 0; i < r; i++){
+	    	  for( int j = 0; j < c; j++){
+	    		  //place white special pieces
+	    		  if(r == 1){
+	    			  //set player
+	    			  //chessboard[r][c] = 2;
+	    			  
+	    			  //set pieces
+	    			  
+	    			  //add piece
+	    			  //pieces[r][c] = null;
+	    		  }
+	    		  //place white pawn pieces
+	    		  else if(r == 2){
+	    			  //set player
+	    			  //chessboard[r][c] = 2;
+	    			  
+	    			  //set image
+	    			  Image white_pawn = new Image("testBoard/images/white_pawn.png");
+	    			  ImageView whitePawn = new ImageView();
+	    			  whitePawn.setImage(white_pawn);
+	    			  
+	    			  //add piece
+	    			  //pieces[r][c].getChildren().addAll(whitePawn);
+	    			  
+	    		  }
+	    		  //place black pawn pieces
+	    		  else if(r == 7){
+	    			  //set player
+	    			  //chessboard[r][c] = 1;
+	    			  
+	    			  //add image
+	    			  render = new Rectangle2D(i*cellWidth, j*cellHeight, cellWidth, cellHeight);
+	    			  Image black_pawn = new Image("testBoard/images/black_pawn.png");
+	    			  ImageView blackPawn = new ImageView();
+	    			  blackPawn.setImage(black_pawn);
+	    			  blackPawn.setViewport(render);
+	    			  
+	    			  //set piece
+	    			  getChildren().addAll(blackPawn);
+
+	    		  }
+	    		  //place black special pieces
+	    		  else if(r == 8){
+	    			  //set player
+	    			  //chessboard[r][c] = 1;
+	    			  
+	    			  //set images
+	    			  
+	    			  //add pieces
+	    			  //pieces[r][c].getChildren().addAll();
+	    			  
+	    		  }
+	    		  
+	    	  }//inner loop
+		}//outer loop
+		
+	}//end of method
 	
 	//we have to override resizing behavior to make our view appear properly
 	@Override
@@ -64,27 +127,6 @@ class Board extends Pane {
 	//resets game
 	public void resetGame() {
 		
-		//reset white pieces
-		for( int w = 0; w < r; w++){
-			//set white pawn image file
-			white_pawn = new Image("images/white_pawn.png");
-			ImageView imageView = new ImageView();
-			imageView.setImage(white_pawn);
-			
-			//place piece on row 2
-			//pieces[r][2] = 0;
-		}
-		
-		//reset black pieces
-		for( int b = 0; b < r; b++){
-			//set black pawn image file
-			black_pawn = new Image("images/black_pawn.png");
-			ImageView imageView = new ImageView();
-			imageView.setImage(black_pawn);
-			
-			//place pieces on row 7
-			//pieces[r][7] = 0;
-		}
 		
 	}
 	
@@ -92,28 +134,32 @@ class Board extends Pane {
 	public void placePiece(final double x, final double y) {
 		
 		// translate the x, y coordinates into cell indexes
-		int indexx = (int) (x / cellWidth);
-		int indexy = (int) (y / cellHeight);
+		int index_x = (int) (x / cellWidth);
+		int index_y = (int) (y / cellHeight);
+		
+		
 		
 	}
 	
 	//private fields
+	// array fields
 	private int[][] chessboard;
 	private Pieces[][] pieces;
 	private Rectangle rectangle;
+	private Rectangle2D render;
+	
+	//board variables
 	private double sceneWidth = 709;
 	private double sceneHeight = 709;
 	private int r = 8;
 	private int c = 8;
 	private double cellWidth = sceneWidth / r;
 	private double cellHeight = sceneHeight / c;
+	
+	//place variables
 	private int EMPTY = 0; //int to show empty cell
 	private final int BLACK = 1; //int to set black
 	private final int WHITE = 2; //int to set white
 	private int current_player; // int to set player
-	
-	//images variables
-	private Image white_pawn;
-	private Image black_pawn;
 
 }
