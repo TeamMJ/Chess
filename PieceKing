@@ -1,5 +1,44 @@
 package Chess;
 
-public class PieceKing extends Pieces{
+import java.io.File;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
+public class PieceKing extends Pieces {
+	
+	public PieceKing(int type) {
+		super(type);
+		
+		if( type == 1){
+			king = new Image(new File("testBoard/images/black_king.png").toString(), 87.5, 87.5, false, false);
+			King = new ImageView(king);
+			getChildren().addAll(King);
+		}
+		
+		else if( type == 2){
+			king = new Image(new File("testBoard/images/white_king.png").toString(), 87.5, 87.5, false, false);
+			King = new ImageView(king);
+			getChildren().addAll(King);
+		}
+	}
+	
+	public void move(){
+		
+	}
+	
+	public void capture(){
+		
+	}
+	
+	// overridden version of the relocate method
+	@Override
+	public void relocate(double x, double y) {
+		// call the superclass method and update the position
+		super.relocate(x, y);
+	}
+	
+	//private fields
+	private Image king;
+	private ImageView King;
+	private int type;
 }
