@@ -1,18 +1,18 @@
 package Chess;
 
-import java.io.File;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.transform.Translate;
+
 
 class ChessBoard extends Pane {
 	
 	public ChessBoard() {
 		//initialize the board
-		chessboard = new int[r][c];
-		pieces = new Pieces[r][c];
+		chessboard = new int[c][r];
+		pieces = new Pieces[c][r];
+		current_player = WHITE;
 		
 		//set board and data structure
 		for( int i = 0; i < r; i++){
@@ -57,8 +57,8 @@ class ChessBoard extends Pane {
 		
 		//initialize the layout of the pieces
 		//========================================================_White Piece set__
-		for( int i = 0; i < r; i++){
-	    	  for( int j = 0; j < c; j++){
+		for( int i = 0; i < c; i++){
+	    	  for( int j = 0; j < r; j++){
 	    		  
 	    		  //place white special pieces
 	    		  if(i == 7){
@@ -177,7 +177,7 @@ class ChessBoard extends Pane {
 	
 	//resets game
 	public void resetGame() {
-		
+		/*
 		//board
 		for( int i = 0; i < r; i++){
 			System.out.println(" ");
@@ -195,10 +195,61 @@ class ChessBoard extends Pane {
 	    		  	System.out.print(pieces[i][j]+", ");
 	    	  }
 		}
+		*/
+		
+		for(int i = 0; i < c; i++) {
+			for(int j = 0; j < r; j++) {
+				chessboard[i][j] = 0;
+				getChildren().remove(pieces[i][j]);
+				pieces[i][j] = null;
+			}
+		}
+		
 	}
 	
-	public void placePiece( double x, double y){
+	public void placePiece( double x, double y, double x1, double y1){
+		//new points
+		int indexx = (int) (x / cellWidth); int indexy = (int) (y / cellHeight);
+		//old points
+		int indexY = (int) (x1 / cellWidth); int indexX = (int) (y1 / cellHeight);
 		
+		// if the position is empty then place a piece and swap the players
+		if(current_player == BLACK) {
+			//correct board ownership
+			chessboard[indexx][indexy] = BLACK;
+			chessboard[indexX][indexY] = EMPTY;
+			
+			//move piece
+			pieces[indexX][indexY].relocate(indexx * cellWidth, indexy * cellHeight);
+			getChildren().add(pieces[indexx][indexy]);
+			
+			//remove old piece and set new player
+			pieces[indexX][indexY] = null;
+			getChildren().remove(pieces[indexX][indexY]);
+			current_player = WHITE;
+		}
+		
+		else if(current_player == WHITE) {
+			//correct board ownership
+			chessboard[indexx][indexy] = WHITE;
+			chessboard[indexX][indexY] = EMPTY;
+			
+			//move piece
+			pieces[indexX][indexY].relocate(indexx * cellWidth, indexy * cellHeight);
+			getChildren().add(pieces[indexx][indexy]);
+			
+			//remove old piece and set new player
+			pieces[indexX][indexY] = null;
+			getChildren().remove(pieces[indexX][indexY]);
+			current_player = BLACK;
+		}
+	}
+	
+	public void setNull( double x, double y){
+		int xy = (int) (x / cellWidth);
+		int xx = (int) (y / cellHeight);
+		
+		System.out.println(xx+", "+xy);
 	}
 	
 	//private fields
@@ -206,9 +257,6 @@ class ChessBoard extends Pane {
 	private int[][] chessboard;
 	private Pieces[][] pieces;
 	private Rectangle rectangle;
-	
-	private PiecePawn pawn;
-	private Translate pos; // translate that set the position of this piece
 	
 	//board variables
 	private double sceneWidth = 702;
