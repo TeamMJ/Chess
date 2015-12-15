@@ -1,25 +1,44 @@
 package Chess;
 
-import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.scene.Group;
-import javafx.scene.Scene;
+import java.io.File;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
-public class PieceBishop extends Piece{
+public class PieceBishop extends Pieces {
 	
-	public static void main(String[] args) {
-        Application.launch(args);
-    }
-	
-    public PieceBishop(int type) {
+	public PieceBishop(int type) {
 		super(type);
-		//TODO Auto-generated constructor stub
+		
+		if( type == 1){
+			bishop = new Image(new File("testBoard/images/black_bishop.png").toString(), 87.5, 87.5, false, false);
+			Bishop = new ImageView(bishop);
+			getChildren().addAll(Bishop);
+		}
+		
+		else if( type == 2){
+			bishop = new Image(new File("testBoard/images/white_bishop.png").toString(), 87.5, 87.5, false, false);
+			Bishop = new ImageView(bishop);
+			getChildren().addAll(Bishop);
+		}
 	}
-
+	
+	public void move(){
+		
+	}
+	
+	public void capture(){
+		
+	}
+	
+	// overridden version of the relocate method
+	@Override
+	public void relocate(double x, double y) {
+		// call the superclass method and update the position
+		super.relocate(x, y);
+	}
+	
+	//private fields
+	private Image bishop;
+	private ImageView Bishop;
+	private int type;
 }
