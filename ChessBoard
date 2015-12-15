@@ -208,39 +208,37 @@ class ChessBoard extends Pane {
 	}
 	
 	public void placePiece( double x, double y, double x1, double y1){
-		//new points
-		int indexx = (int) (x / cellWidth); int indexy = (int) (y / cellHeight);
-		//old points
-		int indexY = (int) (x1 / cellWidth); int indexX = (int) (y1 / cellHeight);
+		int indexx = (int) (x / cellWidth); int indexy = (int) (y / cellHeight); //new points
+		int indexY = (int) (x1 / cellWidth); int indexX = (int) (y1 / cellHeight); //old points
 		
 		// if the position is empty then place a piece and swap the players
-		if(current_player == BLACK) {
+		if(pieces[indexX][indexY] != null && current_player == BLACK) {
 			//correct board ownership
-			chessboard[indexx][indexy] = BLACK;
+			chessboard[indexy][indexx] = BLACK;
 			chessboard[indexX][indexY] = EMPTY;
 			
-			//move piece
+			//move piece, set piece location on board, null old location, add.
 			pieces[indexX][indexY].relocate(indexx * cellWidth, indexy * cellHeight);
+			pieces[indexy][indexx] = pieces[indexX][indexY];
+			pieces[indexX][indexY] = null;
 			getChildren().add(pieces[indexx][indexy]);
 			
-			//remove old piece and set new player
-			pieces[indexX][indexY] = null;
-			getChildren().remove(pieces[indexX][indexY]);
+			//set new player
 			current_player = WHITE;
 		}
 		
-		else if(current_player == WHITE) {
+		else if(pieces[indexX][indexY] != null && current_player == WHITE) {
 			//correct board ownership
-			chessboard[indexx][indexy] = WHITE;
+			chessboard[indexy][indexx] = WHITE;
 			chessboard[indexX][indexY] = EMPTY;
 			
-			//move piece
+			//move piece, set piece location on board, null old location, add.
 			pieces[indexX][indexY].relocate(indexx * cellWidth, indexy * cellHeight);
+			pieces[indexy][indexx] = pieces[indexX][indexY];
+			pieces[indexX][indexY] = null;
 			getChildren().add(pieces[indexx][indexy]);
 			
-			//remove old piece and set new player
-			pieces[indexX][indexY] = null;
-			getChildren().remove(pieces[indexX][indexY]);
+			//set new player
 			current_player = BLACK;
 		}
 	}
