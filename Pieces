@@ -1,7 +1,6 @@
 package Chess;
 
 import javafx.scene.Group;
-import javafx.scene.image.Image;
 import javafx.scene.transform.Translate;
 
 //class declaration - abstract because we will not want to create a Piece object but we would
@@ -11,40 +10,26 @@ public abstract class Pieces extends Group {
 	public Pieces(int type){
 		pos = new Translate();
 		this.type = type;
-		
-		//white turn
-		if(type == 1){
-			
-		}
-		
-		//black turn
-		else if(type == 2){
-			
-		}
-		
 	}
 	
 	//move method
-	public void move(){
-		
-	}
+	abstract public void move();
 	
 	//capture method
-	public void capture(){
-		
+	abstract public void capture();
+	
+	
+	// overridden version of the relocate method
+	@Override
+	public void relocate(double x, double y) {
+		// call the superclass method and update the position
+		super.relocate(x, y);
+		pos.setX(x); 
+		pos.setY(y);
 	}
 	
 	
 	//private variables
 	private int type; 		//piece can be either white (1) or black (2)
-	private Image image;	//image used to display the piece
-	private Translate pos; // translate that set the position of this piece
-	
-	//pieces
-	private PiecePawn pawn;
-	private PieceRook rook;
-	private PieceKnight knight;
-	private PieceBishop bishop;
-	private PieceQueen queen;
-	private PieceKing king;
+	private Translate pos;
 }
