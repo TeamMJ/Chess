@@ -1,28 +1,74 @@
 package Chess;
 
 import javafx.event.EventHandler;
+import javafx.animation.TranslateTransition;
 import javafx.scene.control.Control;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.DragEvent;
 
 public class CustomControl extends Control{
+	
 	//similar to previous custom controls but must handle more
 	//complex mouse interactions and key interactions
 	public CustomControl() {
+		
 		// set a default skin and generate a game board
 		setSkin(new CustomControlSkin(this));
-		chessBoard = new Board();
-		getChildren().add(chessBoard);
+		board = new ChessBoard();
+		getChildren().add(board);
+		
+		// add a mouse clicked listener that will try to place a piece		
+		setOnMousePressed(new EventHandler<MouseEvent>(){
+			// overridden handle method
+			@Override
+			public void handle(MouseEvent event) {
+	            x1 = event.getX(); y1 = event.getY();
+			}
+		});
+		
+		setOnMouseDragged(new EventHandler<MouseEvent>(){
+			// overridden handle method
+			@Override
+			public void handle(MouseEvent event) {
+				
+			}
+		});
+		
+		setOnMouseReleased(new EventHandler<MouseEvent>(){
+			// overridden handle method
+			@Override
+			public void handle(MouseEvent event) {
+    			//set new points, get old points and send to method
+    			board.placePiece( event.getX(), event.getY(), x1, y1);
+			}
+		});
+		
+		// add a key listener that will reset the game
+		setOnKeyPressed(new EventHandler<KeyEvent>() {
+			// overridden handle method
+			@Override
+			public void handle(KeyEvent event) {
+				if(event.getCode() == KeyCode.SPACE)
+					board.resetGame();
+			}
+		});
+		
 	}
+
 	
 	//override the resize method
 	@Override
 	public void resize(double width, double height) {
+		
 		// update the size of the rectangle
 		super.resize(width, height);
+		board.resize(width, height);
+		
 	}
 	
 	//private fields of the class
-	private ChessBoard chessBoard;
+	private ChessBoard board;
+	private Double x1, y1;
 }
