@@ -62,127 +62,62 @@ class ChessBoard extends Pane {
 	    		  
 	    		  //place white special pieces
 	    		  if(i == 7){
-	    			  
 	    			  //set player id
 	    			  chessboard[i][j] = 2;
 	    			  
 	    			  //add rook
 	    			  if(j == 0 || j == 7){
-		    			  
-	    				  //add image
-		    			  Image white_rook = new Image(new File("testBoard/images/white_rook.png").toString(), 87.5, 87.5, false, false);
-		    			  ImageView whiteRook = new ImageView(white_rook);
-		    			  
-		    			  //set position
-		    			  whiteRook.setX(j*cellWidth);
-		    			  whiteRook.setY(i*cellHeight);
-		    			  
-		    			  //set piece
-		    			  getChildren().addAll(whiteRook);
-		    			  
+		    			  pieces[i][j] = new PieceRook(2);
+		    			  pieces[i][j].relocate(j*cellWidth, i*cellHeight);
+		    			  getChildren().addAll(pieces[i][j]);
 	    			  }
 	    			  
 	    			  // add knight
 	    			  if(j == 1 || j == 6){
-		    			  
-	    				  //add image
-		    			  Image white_knight = new Image(new File("testBoard/images/white_knight.png").toString(), 87.5, 87.5, false, false);
-		    			  ImageView whiteKnight = new ImageView(white_knight);
-		    			  
-		    			  //set position
-		    			  whiteKnight.setX(j*cellWidth);
-		    			  whiteKnight.setY(i*cellHeight);
-		    			  
-		    			  //set piece
-		    			  getChildren().addAll(whiteKnight);
-		    			  
+		    			  pieces[i][j] = new PieceKnight(2);
+		    			  pieces[i][j].relocate(j*cellWidth, i*cellHeight);
+		    			  getChildren().addAll(pieces[i][j]); 
 	    			  }
 	    			  
 	    			  //add bishop
 	    			  if(j == 2 || j == 5){
-		    			  //add image
-		    			  Image white_bishop = new Image(new File("testBoard/images/white_bishop.png").toString(), 87.5, 87.5, false, false);
-		    			  ImageView whiteBishop = new ImageView(white_bishop);
-		    			  
-		    			  //set position
-		    			  whiteBishop.setX(j*cellWidth);
-		    			  whiteBishop.setY(i*cellHeight);
-		    			  
-		    			  //set piece
-		    			  getChildren().addAll(whiteBishop);
-		    			  
+		    			  pieces[i][j] = new PieceBishop(2);
+		    			  pieces[i][j].relocate(j*cellWidth, i*cellHeight);
+		    			  getChildren().addAll(pieces[i][j]); 
 	    			  }
 	    			  
 	    			  // add queen
 	    			  if(j == 3){
-		    			  
-	    				  //add image
-		    			  Image white_queen = new Image(new File("testBoard/images/white_queen.png").toString(), 87.5, 87.5, false, false);
-		    			  ImageView whiteQueen = new ImageView(white_queen);
-		    			  
-		    			  //set position
-		    			  whiteQueen.setX(j*cellWidth);
-		    			  whiteQueen.setY(i*cellHeight);
-		    			  
-		    			  //set piece
-		    			  getChildren().addAll(whiteQueen);
-	    				  
+		    			  pieces[i][j] = new PieceQueen(2);
+		    			  pieces[i][j].relocate(j*cellWidth, i*cellHeight);
+		    			  getChildren().addAll(pieces[i][j]); 
 	    			  }
 	    			  //add king
 	    			  if(j == 4){
-		    			 
-	    				  //add image
-		    			  Image white_king = new Image(new File("testBoard/images/white_king.png").toString(), 87.5, 87.5, false, false);
-		    			  ImageView whiteKing = new ImageView(white_king);
-		    			  
-		    			  //set position
-		    			  whiteKing.setX(j*cellWidth);
-		    			  whiteKing.setY(i*cellHeight);
-		    			  
-		    			  //set piece
-		    			  getChildren().addAll(whiteKing);
-		    			  
+		    			  pieces[i][j] = new PieceKing(2);
+		    			  pieces[i][j].relocate(j*cellWidth, i*cellHeight);
+		    			  getChildren().addAll(pieces[i][j]); 
 	    			  }
 	    			  
 	    		  }
 	    		 
 	    		  //place white pawn pieces
 	    		  else if(i == 6){
-	    			  
-	    			  //set player id
+	    			  //set player id, set piece, relocate, add
 	    			  chessboard[i][j] = 2;
-	    			  
-	    			  //add image
-	    			  Image black_pawn = new Image(new File("testBoard/images/white_pawn.png").toString(), 87.5, 87.5, false, false);
-	    			  ImageView whitePawn = new ImageView(black_pawn);
-	    			  
-	    			  //set position
-	    			  whitePawn.setX(j*cellWidth);
-	    			  whitePawn.setY(i*cellHeight);
-	    			  
-	    			  //set piece
-	    			  getChildren().addAll(whitePawn);
-	    			  
+	    			  pieces[i][j] = new PiecePawn(2);
+	    			  pieces[i][j].relocate(j*cellWidth, i*cellHeight);
+	    			  getChildren().addAll(pieces[i][j]);
 	    		  }
 	    		  
 	    		  //===============================================__Black Piece set__
 	    		  //place black pawn pieces
-	    		  else if(i == 1){
-	    			 
-	    			  //set player id
+	    		  else if(i == 1 ){ 
+	    			  //set player id, set piece, relocate, add
 	    			  chessboard[i][j] = 1;
-	    			  
-	    			  //add image
-	    			  Image black_pawn = new Image(new File("testBoard/images/black_pawn.png").toString(), 87.5, 87.5, false, false);
-	    			  ImageView blackPawn = new ImageView(black_pawn);
-	    			  
-	    			  //set position
-	    			  blackPawn.setX(j*cellWidth);
-	    			  blackPawn.setY(i*cellHeight);
-	    			  
-	    			  //set piece
-	    			  getChildren().addAll(blackPawn);
-
+	    			  pieces[i][j] = new PiecePawn(1);
+	    			  pieces[i][j].relocate(j*cellWidth, i*cellHeight);
+	    			  getChildren().addAll(pieces[i][j]);
 	    		  }
 	    		  
 	    		  //place black special pieces
@@ -193,81 +128,36 @@ class ChessBoard extends Pane {
 	    			  
 	    			  //add rook
 	    			  if(j == 0 || j == 7){
-		    			  
-	    				  //add image
-		    			  Image black_rook = new Image(new File("testBoard/images/black_rook.png").toString(), 87.5, 87.5, false, false);
-		    			  ImageView blackRook = new ImageView(black_rook);
-		    			  
-		    			  //set position
-		    			  blackRook.setX(j*cellWidth);
-		    			  blackRook.setY(i*cellHeight);
-		    			  
-		    			  //set piece
-		    			  getChildren().addAll(blackRook);
-		    			  
+		    			  pieces[i][j] = new PieceRook(1);
+		    			  pieces[i][j].relocate(j*cellWidth, i*cellHeight);
+		    			  getChildren().addAll(pieces[i][j]);
 	    			  }
 	    			  
 	    			  // add knight
 	    			  if(j == 1 || j == 6){
-		    			  
-	    				  //add image
-		    			  Image black_knight = new Image(new File("testBoard/images/black_knight.png").toString(), 87.5, 87.5, false, false);
-		    			  ImageView blackKnight = new ImageView(black_knight);
-		    			  
-		    			  //set position
-		    			  blackKnight.setX(j*cellWidth);
-		    			  blackKnight.setY(i*cellHeight);
-		    			  
-		    			  //set piece
-		    			  getChildren().addAll(blackKnight);
-		    			  
+		    			  pieces[i][j] = new PieceKnight(1);
+		    			  pieces[i][j].relocate(j*cellWidth, i*cellHeight);
+		    			  getChildren().addAll(pieces[i][j]);
 	    			  }
 	    			  
 	    			  //add bishop
 	    			  if(j == 2 || j == 5){
-		    			  
-	    				  //add image
-		    			  Image black_bishop = new Image(new File("testBoard/images/black_bishop.png").toString(), 87.5, 87.5, false, false);
-		    			  ImageView blackBishop = new ImageView(black_bishop);
-		    			  
-		    			  //set position
-		    			  blackBishop.setX(j*cellWidth);
-		    			  blackBishop.setY(i*cellHeight);
-		    			  
-		    			  //set piece
-		    			  getChildren().addAll(blackBishop);
-		    			  
+		    			  pieces[i][j] = new PieceBishop(1);
+		    			  pieces[i][j].relocate(j*cellWidth, i*cellHeight);
+		    			  getChildren().addAll(pieces[i][j]); 
 	    			  }
 	    			  
 	    			  // add queen
 	    			  if(j == 3){
-		    			  
-	    				  //add image
-		    			  Image black_queen = new Image(new File("testBoard/images/black_queen.png").toString(), 87.5, 87.5, false, false);
-		    			  ImageView blackQueen = new ImageView(black_queen);
-		    			  
-		    			  //set position
-		    			  blackQueen.setX(j*cellWidth);
-		    			  blackQueen.setY(i*cellHeight);
-		    			  
-		    			  //set piece
-		    			  getChildren().addAll(blackQueen);
-	    				  
+		    			  pieces[i][j] = new PieceQueen(1);
+		    			  pieces[i][j].relocate(j*cellWidth, i*cellHeight);
+		    			  getChildren().addAll(pieces[i][j]); 
 	    			  }
 	    			  //add king
 	    			  if(j == 4){
-		    			 
-	    				  //add image
-		    			  Image black_king = new Image(new File("testBoard/images/black_king.png").toString(), 87.5, 87.5, false, false);
-		    			  ImageView blackKing = new ImageView(black_king);
-		    			  
-		    			  //set position
-		    			  blackKing.setX(j*cellWidth);
-		    			  blackKing.setY(i*cellHeight);
-		    			  
-		    			  //set piece
-		    			  getChildren().addAll(blackKing);
-		    			  
+		    			  pieces[i][j] = new PieceKing(1);
+		    			  pieces[i][j].relocate(j*cellWidth, i*cellHeight);
+		    			  getChildren().addAll(pieces[i][j]); 
 	    			  }
 	    		  }
 	    		  
@@ -287,10 +177,22 @@ class ChessBoard extends Pane {
 	
 	//resets game
 	public void resetGame() {
+		
+		//board
 		for( int i = 0; i < r; i++){
 			System.out.println(" ");
 	    	  for( int j = 0; j < c; j++){
 	    		  	System.out.print(chessboard[i][j]+", ");
+	    	  }
+		}
+		
+		System.out.println(" ");
+		
+		// pieces
+		for( int i = 0; i < r; i++){
+			System.out.println(" ");
+	    	  for( int j = 0; j < c; j++){
+	    		  	System.out.print(pieces[i][j]+", ");
 	    	  }
 		}
 	}
@@ -305,13 +207,16 @@ class ChessBoard extends Pane {
 	private Pieces[][] pieces;
 	private Rectangle rectangle;
 	
+	private PiecePawn pawn;
+	private Translate pos; // translate that set the position of this piece
+	
 	//board variables
-	private double sceneWidth = 709; //scene width
-	private double sceneHeight = 709; //scene height
-	private int r = 8; //row length
-	private int c = 8; //column height
-	private double cellWidth = sceneWidth / r; //rectangle width
-	private double cellHeight = sceneHeight / c; //rectangle height
+	private double sceneWidth = 702;
+	private double sceneHeight = 700;
+	private int r = 8;
+	private int c = 8;
+	private double cellWidth = sceneWidth / r;
+	private double cellHeight = sceneHeight / c;
 	
 	//place variables
 	private int EMPTY = 0; //int to show empty cell
