@@ -10,24 +10,93 @@ public class PieceKnight extends Pieces {
 		super(type);
 		
 		if( type == 1){
-			knight = new Image(new File("testBoard/images/black_knight.png").toString(), 87.5, 87.5, false, false);
+			knight = new Image(new File("testBoard/images/black_knight.png").toString(), area, area, false, false);
 			Knight = new ImageView(knight);
 			getChildren().addAll(Knight);
 		}
 		
 		else if( type == 2){
-			knight = new Image(new File("testBoard/images/white_knight.png").toString(), 87.5, 87.5, false, false);
+			knight = new Image(new File("testBoard/images/white_knight.png").toString(), area, area, false, false);
 			Knight = new ImageView(knight);
 			getChildren().addAll(Knight);
 		}
 	}
 	
-	public void move(){
+	public void move(int type, double x, double y, double x1, double y1){
+		//black
+		if(type == 1){
+			
+			//movement up & down
+			if(x > x1){
+			//move up
+				xx = x1 + (area*2) + 5;
+			}
+			
+			if(x < x1){
+			//move down
+				xx = x1 - (area*2);
+			}
+			
+			//turn point
+			if(y > y1){
+				//right move
+				yy = y1 + area + 5;
+			}
+			if(y < y1){
+				//left move
+				yy = y1 - area;
+			}
+			
+			//set location
+			x2 = xx; 
+			y2 = yy;
+			relocate(yy, xx);
+				
+		}
+		
+		//white
+		if(type == 2){
+			
+			//movement up & down
+			if(x < x1){
+			//move up
+				xx = x1 - (area*2);
+			}
+			
+			if(x > x1){
+			//move down
+				xx = x1 + (area*2) + 5;
+			}
+			
+			//turn point
+			if(y > y1){
+				//right move
+				yy = y1 + area + 5;
+			}
+			if(y < y1){
+				//left move
+				yy = y1 - area;
+			}	
+			
+			//set location
+			x2 = xx; 
+			y2 = yy;
+			relocate(yy, xx);
+			
+		}
+
+	}
+	
+	public void capture(double x, double y){
 		
 	}
 	
-	public void capture(){
-		
+	public double newX(){
+		return this.x2;
+	}
+	
+	public double newY(){
+		return this.y2;
 	}
 	
 	// overridden version of the relocate method
@@ -40,5 +109,7 @@ public class PieceKnight extends Pieces {
 	//private fields
 	private Image knight;
 	private ImageView Knight;
-	private int type;
+	private double area = 700/8;
+	private double xx, yy;
+	private double x2, y2;
 }
