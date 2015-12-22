@@ -10,24 +10,93 @@ public class PieceRook extends Pieces{
 		super(type);
 		
 		if( type == 1){
-			rook = new Image(new File("testBoard/images/black_rook.png").toString(), 87.5, 87.5, false, false);
+			rook = new Image(new File("testBoard/images/black_rook.png").toString(), area, area, false, false);
 			Rook = new ImageView(rook);
 			getChildren().addAll(Rook);
 		}
 		
 		else if( type == 2){
-			rook = new Image(new File("testBoard/images/white_rook.png").toString(), 87.5, 87.5, false, false);
+			rook = new Image(new File("testBoard/images/white_rook.png").toString(), area, area, false, false);
 			Rook = new ImageView(rook);
 			getChildren().addAll(Rook);
 		}
 	}
 	
-	public void move(){
+	public void move(int type, double x, double y, double x1, double y1){
+		if(type == 1){
+			//movement up & down, or left & right
+			if(x > x1){
+				//move down
+				xx = x;
+				yy = y1;
+			}
+			if(y < y1){
+				//move up
+				yy = y;
+				xx = x1;
+			}
+			
+			if(x < x1){
+				//move down
+				xx = x;
+				yy = y1;
+			}
+			if(y > y1){
+				//move
+				yy = y;
+				xx = x1;
+			}
+			else{}
+			
+			//set location
+			x2 = xx;
+			y2 = yy;
+			relocate(yy, xx);
+		}
+		
+		if(type == 2){
+			//movement up & down, or left & right
+			if(x < x1){
+				//move down
+				xx = x;
+				yy = y1;
+			}
+			if(y > y1){
+				//move up
+				yy = y;
+				xx = x1;
+			}
+			
+			if(x > x1){
+				//move down
+				xx = x;
+				yy = y1;
+			}
+			if(y < y1){
+				//move
+				yy = y;
+				xx = x1;
+			}
+			else{}
+			
+			//set location
+			x2 = yy;
+			y2 = xx;
+			relocate(xx, yy);
+		}
 		
 	}
 	
-	public void capture(){
+	public void capture(double x, double y){
 		
+	}
+	
+	public double newX(){
+		return x2;
+	}
+	
+	public double newY(){
+		return y2;
 	}
 	
 	// overridden version of the relocate method
@@ -40,5 +109,7 @@ public class PieceRook extends Pieces{
 	//private fields
 	private Image rook;
 	private ImageView Rook;
-	private int type;
+	private double area = 700/8;
+	private double xx, yy;
+	private double x2, y2;
 }
