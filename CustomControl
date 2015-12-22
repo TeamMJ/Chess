@@ -26,22 +26,20 @@ public class CustomControl extends Control{
 			public void handle(MouseEvent event) {
 	            x1 = event.getX(); y1 = event.getY();
 			}
-		});
+		});	
 		
-		setOnMouseDragged(new EventHandler<MouseEvent>(){
-			// overridden handle method
-			@Override
-			public void handle(MouseEvent event) {
-				
-			}
-		});
-		
+		// sets position based on mouse location
 		setOnMouseReleased(new EventHandler<MouseEvent>(){
 			// overridden handle method
 			@Override
 			public void handle(MouseEvent event) {
     			//set new points, get old points and send to method
-    			board.placePiece( event.getX(), event.getY(), x1, y1);
+				x = event.getX(); y = event.getY();
+				
+				if(x != null){
+					board.placePiece( x, y, x1, y1);
+				}
+				
 			}
 		});
 		
@@ -50,8 +48,12 @@ public class CustomControl extends Control{
 			// overridden handle method
 			@Override
 			public void handle(KeyEvent event) {
-				if(event.getCode() == KeyCode.SPACE)
+				if(event.getCode() == KeyCode.SPACE){
 					board.resetGame();
+				}
+				if(event.getCode() == KeyCode.SHIFT){
+					board.check();
+				}
 			}
 		});
 		
@@ -70,5 +72,5 @@ public class CustomControl extends Control{
 	
 	//private fields of the class
 	private ChessBoard board;
-	private Double x1, y1;
+	private Double x, y, x1, y1;
 }
