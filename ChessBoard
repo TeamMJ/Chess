@@ -181,8 +181,6 @@ class ChessBoard extends Pane {
 			//stops overlap of black pieces
 			if(pieces[indexy][indexx] == null){
 				
-				System.out.println("Index-B: "+indexX+", "+indexY);
-				
 				//move piece, set piece location on board, null old location, add.
 				pieces[indexX][indexY].move(BLACK, indexy * cellWidth, indexx * cellHeight, indexX * cellWidth, indexY * cellHeight);
 				
@@ -192,13 +190,17 @@ class ChessBoard extends Pane {
 				int xxB = (int) (x2B / cellWidth);
 				int yyB = (int) (y2B / cellHeight);
 				
-				//sets new to piece
-				pieces[xxB][yyB] = pieces[indexX][indexY];
-				chessboard[xxB][yyB] = BLACK;
-				
-				//sets old to empty
-				pieces[indexX][indexY] = null;
-				chessboard[indexX][indexY] = EMPTY;
+				//captures piece
+				if(chessboard[indexy][indexx] == WHITE && pieces[indexy][indexx] != null){
+					pieces[indexX][indexY].capture(x2B, y2B);
+					pieces[xxB][yyB] = pieces[indexX][indexY];
+					chessboard[xxB][yyB] = BLACK;
+				}
+				//sets piece to empty
+				else{
+					pieces[xxB][yyB] = pieces[indexX][indexY];
+					chessboard[xxB][yyB] = BLACK;
+				}
 				
 				//set new player
 				current_player = WHITE;
@@ -214,22 +216,28 @@ class ChessBoard extends Pane {
 		
 		else if(pieces[indexX][indexY] != null && current_player == WHITE && chessboard[indexX][indexY] == WHITE) {
 			//stops overlap of white pieces
-			if(pieces[indexy][indexx] == null){
-				
-				System.out.println("Index-W: "+indexX+", "+indexY);
-				
+			if(chessboard[indexy][indexx] != WHITE){
 				//move piece, set piece location on board, null old location, add.
 				pieces[indexX][indexY].move(WHITE, indexx * cellWidth, indexy * cellHeight, indexX * cellWidth, indexY * cellHeight);
-				
 				//correct board ownership
 				double x2W = pieces[indexX][indexY].newX();
 				double y2W = pieces[indexX][indexY].newY();
 				int xxW = (int) (x2W / cellWidth);
 				int yyW = (int) (y2W / cellHeight);
 				
-				pieces[xxW][yyW] = pieces[indexX][indexY];
-				chessboard[xxW][yyW] = WHITE;
-
+				//captures piece
+				if(chessboard[indexy][indexx] == BLACK && pieces[indexy][indexx] != null){
+					pieces[indexX][indexY].capture(x2W, y2W);
+					pieces[xxW][yyW] = pieces[indexX][indexY];
+					chessboard[xxW][yyW] = WHITE;
+				}
+				//sets piece
+				else{
+					pieces[xxW][yyW] = pieces[indexX][indexY];
+					chessboard[xxW][yyW] = WHITE;
+				}
+				
+				//empties old
 				pieces[indexX][indexY] = null;
 				chessboard[indexX][indexY] = EMPTY;
 				
@@ -237,16 +245,96 @@ class ChessBoard extends Pane {
 				current_player = BLACK;
 				
 			}
-			//captures black pieces
-			if(chessboard[indexy][indexx] == 1 && pieces[indexy][indexx] != null){
-				//pieces[indexX][indexY].capture(pieces[indexy][indexx]);
-			}
 			else{}
 		}
 	}
 	
 	//resets game
 	public void resetGame() {
+		for( int i = 0; i < c; i++){
+	    	  for( int j = 0; j < r; j++){
+	    			//add the board
+	    		  	chessboard[i][j] = EMPTY;
+	    		  	getChildren().remove(pieces[i][j]);
+	    		  	pieces[i][j] = null;
+	    	  }
+		}
+		//reset board
+		for( int i = 0; i < c; i++){
+	    	  for( int j = 0; j < r; j++){
+	    		  //place white special pieces
+	    		  if(i == 7){
+	    			  //set player id
+	    			  chessboard[i][j] = 2;
+	    			  //add rook
+	    			  if(j == 0 || j == 7){
+		    			  pieces[i][j] = new PieceRook(2);pieces[i][j].relocate(j*cellWidth, i*cellHeight);getChildren().add(pieces[i][j]);
+	    			  }
+	    			  // add knight
+	    			  if(j == 1 || j == 6){
+		    			  pieces[i][j] = new PieceKnight(2);pieces[i][j].relocate(j*cellWidth, i*cellHeight);getChildren().add(pieces[i][j]); 
+	    			  }
+	    			  //add bishop
+	    			  if(j == 2 || j == 5){
+		    			  pieces[i][j] = new PieceBishop(2); pieces[i][j].relocate(j*cellWidth, i*cellHeight); getChildren().add(pieces[i][j]); 
+	    			  }
+	    			  // add queen
+	    			  if(j == 3){
+		    			  pieces[i][j] = new PieceQueen(2);pieces[i][j].relocate(j*cellWidth, i*cellHeight);getChildren().add(pieces[i][j]); 
+	    			  }
+	    			  //add king
+	    			  if(j == 4){
+		    			  pieces[i][j] = new PieceKing(2); pieces[i][j].relocate(j*cellWidth, i*cellHeight); getChildren().add(pieces[i][j]); 
+	    			  }
+	    		  }
+	    		  //place white pawn pieces
+	    		  else if(i == 6){
+	    			  //set player id, set piece, relocate, add
+	    			  chessboard[i][j] = 2;pieces[i][j] = new PiecePawn(2);pieces[i][j].relocate(j*cellWidth, i*cellHeight); getChildren().add(pieces[i][j]);
+	    		  }
+	    		  //===============================================__Black Piece set__
+	    		  //place black pawn pieces
+	    		  else if(i == 1){ 
+	    			  //set player id, set piece, relocate, add
+	    			  chessboard[i][j] = 1;pieces[i][j] = new PiecePawn(1);pieces[i][j].relocate(j*cellWidth, i*cellHeight);getChildren().add(pieces[i][j]);
+	    		  }
+	    		  //place black special pieces
+	    		  else if(i == 0){
+	    			  //set player id
+	    			  chessboard[i][j] = 1;
+	    			  //add rook
+	    			  if(j == 0 || j == 7){
+		    			  pieces[i][j] = new PieceRook(1);pieces[i][j].relocate(j*cellWidth, i*cellHeight); getChildren().add(pieces[i][j]);
+	    			  }
+	    			  // add knight
+	    			  if(j == 1 || j == 6){
+		    			  pieces[i][j] = new PieceKnight(1);pieces[i][j].relocate(j*cellWidth, i*cellHeight);getChildren().add(pieces[i][j]);
+	    			  }
+	    			  //add bishop
+	    			  if(j == 2 || j == 5){
+		    			  pieces[i][j] = new PieceBishop(1);pieces[i][j].relocate(j*cellWidth, i*cellHeight);getChildren().add(pieces[i][j]); 
+	    			  }
+	    			  // add queen
+	    			  if(j == 3){
+		    			  pieces[i][j] = new PieceQueen(1);pieces[i][j].relocate(j*cellWidth, i*cellHeight);getChildren().add(pieces[i][j]); 
+	    			  }
+	    			  //add king
+	    			  if(j == 4){
+		    			  pieces[i][j] = new PieceKing(1); pieces[i][j].relocate(j*cellWidth, i*cellHeight); getChildren().add(pieces[i][j]); 
+	    			  }
+	    		  }
+	    		  
+	    	  }//inner loop
+	    	  
+	    	  //set player
+	    	  current_player = BLACK;
+	    	  
+		}//outer loop
+		
+	}
+	
+	//check data location
+	public void check(){
 		//board
 		for( int i = 0; i < r; i++){
 			System.out.println(" ");
@@ -264,16 +352,6 @@ class ChessBoard extends Pane {
 	    		  	System.out.print(pieces[i][j]+", ");
 	    	  }
 		}
-		
-	}
-	
-	//check data location
-	public void check(double x, double y, double x1, double y1){
-		//check to see if place piece is working
-		System.out.println("new "+x/cellWidth+", "+y/cellHeight);
-		System.out.println(" ");
-		System.out.println("old "+x1/cellWidth+", "+y1/cellHeight);
-		System.out.println("--------------");
 	}
 	
 	//private fields
