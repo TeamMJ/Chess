@@ -3,8 +3,6 @@ package Chess;
 import javafx.scene.Group;
 import javafx.scene.transform.Translate;
 
-//class declaration - abstract because we will not want to create a Piece object but we would
-//like to specify the private fields that all pieces should have in addition to their behaviors
 public abstract class Pieces extends Group {
 	
 	public Pieces(int type){
@@ -12,12 +10,16 @@ public abstract class Pieces extends Group {
 		this.type = type;
 	}
 	
-	//move method
-	abstract public void move();
+	//move piece method
+	abstract public void move(int type, double x, double y, double x1, double y1);
+
 	
 	//capture method
-	abstract public void capture();
+	abstract public void capture(double x, double y);
 	
+	//methods to return updated x and y
+	abstract public double newX();
+	abstract public double newY();
 	
 	// overridden version of the relocate method
 	@Override
@@ -28,8 +30,16 @@ public abstract class Pieces extends Group {
 		pos.setY(y);
 	}
 	
+	@Override
+	public void resize(double width, double height){
+		super.resize(width, height);
+		
+		width = width / 8;
+		height = height / 8;
+		
+	}
 	
 	//private variables
-	private int type; 		//piece can be either white (1) or black (2)
+	public int type;
 	private Translate pos;
 }
