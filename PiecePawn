@@ -10,24 +10,70 @@ public class PiecePawn extends Pieces {
 		super(type);
 		
 		if( type == 1){
-			pawn = new Image(new File("testBoard/images/black_pawn.png").toString(), 87.5, 87.5, false, false);
+			pawn = new Image(new File("testBoard/images/black_pawn.png").toString(), area, area, false, false);
 			Pawn = new ImageView(pawn);
 			getChildren().addAll(Pawn);
 		}
 		
 		else if( type == 2){
-			pawn = new Image(new File("testBoard/images/white_pawn.png").toString(), 87.5, 87.5, false, false);
+			pawn = new Image(new File("testBoard/images/white_pawn.png").toString(), area, area, false, false);
 			Pawn = new ImageView(pawn);
 			getChildren().addAll(Pawn);
 		}
 	}
 	
-	public void move(){
+	public void move(int type, double x, double y, double x1, double y1){
+		//black
+		if(type == 1){
+			
+			//set move
+			if(x1 > 0.0 && x1 < 100.0){
+				xx = x1 + area + 1;
+			}
+			else{
+				xx = x1 + area + 1;
+			}
+			yy = y1;
+			
+			//set new co-ord		
+			x2 = xx; 
+			y2 = yy;
+			
+			//relocate piece
+			relocate(yy, xx);
+				
+		}
+		
+		//white
+		if(type == 2){
+			
+			//set move
+			xx = x1 - area;
+			yy = y1;
+				
+			//set new co-ord
+			x2 = xx; 
+			y2 = yy;
+				
+			//relocate piece
+			relocate(yy, xx);
+			
+		}
+
+	}
+	
+	public void capture(double x, double y){
+		//remove piece
+		
 		
 	}
 	
-	public void capture(){
-		
+	public double newX(){
+		return x2;
+	}
+	
+	public double newY(){
+		return y2;
 	}
 	
 	// overridden version of the relocate method
@@ -35,10 +81,14 @@ public class PiecePawn extends Pieces {
 	public void relocate(double x, double y) {
 		// call the superclass method and update the position
 		super.relocate(x, y);
+
 	}
 	
 	//private fields
 	private Image pawn;
 	private ImageView Pawn;
-	private int type;
+	private double area = 710/8;
+	private double xx, yy;
+	private double x2;
+	private double y2;
 }
