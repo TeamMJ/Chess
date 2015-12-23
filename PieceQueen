@@ -10,24 +10,113 @@ public class PieceQueen extends Pieces {
 		super(type);
 		
 		if( type == 1){
-			queen = new Image(new File("testBoard/images/black_queen.png").toString(), 87.5, 87.5, false, false);
+			queen = new Image(new File("Chess/images/black_queen.png").toString(), area, area, false, false);
 			Queen = new ImageView(queen);
 			getChildren().addAll(Queen);
 		}
 		
 		else if( type == 2){
-			queen = new Image(new File("testBoard/images/white_queen.png").toString(), 87.5, 87.5, false, false);
+			queen = new Image(new File("Chess/images/white_queen.png").toString(), area, area, false, false);
 			Queen = new ImageView(queen);
 			getChildren().addAll(Queen);
 		}
 	}
 	
-	public void move(){
+	public void move(int type, double x, double y, double x1, double y1){
+		if(type == 1){
+			//movement up & down, or left & right
+			if(x > x1){
+				//move down
+				xx = x;
+				yy = y1;
+			}
+			if(y < y1){
+				//move up
+				yy = y;
+				xx = x1;
+			}
+			if(y > y1 && x > x1){
+				//move
+				yy = y;
+				xx = x;
+			}
+			
+			if(x < x1){
+				//move down
+				xx = x;
+				yy = y1;
+			}
+			if(y > y1){
+				//move
+				yy = y;
+				xx = x1;
+			}
+			if(y < y1 && x < x1){
+				//move
+				yy = y;
+				xx = x;
+			}
+			else{}
+			
+			//set location
+			x2 = xx;
+			y2 = yy;
+			relocate(yy, xx);
+		}
+		
+		if(type == 2){
+			//movement up & down, or left & right
+			if(x < x1){
+				//move down
+				xx = x;
+				yy = y1;
+			}
+			if(y > y1){
+				//move up
+				yy = y;
+				xx = x1;
+			}
+			if(y > y1 && x > x1){
+				//move
+				yy = y;
+				xx = x;
+			}
+			
+			if(x > x1){
+				//move down
+				xx = x;
+				yy = y1;
+			}
+			if(y < y1){
+				//move left
+				yy = y;
+				xx = x1;
+			}
+			if(y < y1 && x < x1){
+				//move
+				yy = y;
+				xx = x;
+			}
+			else{}
+			
+			//set location
+			x2 = yy;
+			y2 = xx;
+			relocate(xx, yy);
+		}
 		
 	}
 	
-	public void capture(){
-		
+	public void capture(int x, int y){
+		relocate(x*area*10, y*area*10);
+	}
+	
+	public double newX(){
+		return this.x2;
+	}
+	
+	public double newY(){
+		return this.y2;
 	}
 	
 	// overridden version of the relocate method
@@ -40,5 +129,8 @@ public class PieceQueen extends Pieces {
 	//private fields
 	private Image queen;
 	private ImageView Queen;
-	private int type;
+	private double area = 600/8;
+	private double xx, yy;
+	private double x2, y2;
 }
+
