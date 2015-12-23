@@ -1,12 +1,13 @@
 package Chess;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.animation.TranslateTransition;
 import javafx.scene.control.Control;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.DragEvent;
+import javafx.scene.layout.BorderPane;
 
 public class CustomControl extends Control{
 	
@@ -17,7 +18,12 @@ public class CustomControl extends Control{
 		// set a default skin and generate a game board
 		setSkin(new CustomControlSkin(this));
 		board = new ChessBoard();
+		bp = new BorderPane();
 		getChildren().add(board);
+		btn2 = new Button("Reset Game");
+		btn2.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		bp.setBottom(btn2);
+		getChildren().add(bp);
 		
 		// add a mouse clicked listener that will try to place a piece		
 		setOnMousePressed(new EventHandler<MouseEvent>(){
@@ -48,29 +54,34 @@ public class CustomControl extends Control{
 			// overridden handle method
 			@Override
 			public void handle(KeyEvent event) {
-				if(event.getCode() == KeyCode.SPACE){
-					board.resetGame();
-				}
 				if(event.getCode() == KeyCode.SHIFT){
+					//checks board layout
 					board.check();
 				}
 			}
 		});
 		
+		//stop button
+		btn2.setOnAction(new EventHandler<ActionEvent>() {
+				//overridden handle method
+			@Override
+			public void handle(ActionEvent event) {
+				board.resetGame();
+			}
+		});
 	}
 
-	
 	//override the resize method
 	@Override
 	public void resize(double width, double height) {
-		
 		// update the size of the rectangle
 		super.resize(width, height);
 		board.resize(width, height);
-		
 	}
 	
 	//private fields of the class
 	private ChessBoard board;
+	private BorderPane bp;
+	private Button btn2;
 	private Double x, y, x1, y1;
 }
