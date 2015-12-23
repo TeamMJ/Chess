@@ -10,13 +10,13 @@ public class PieceKnight extends Pieces {
 		super(type);
 		
 		if( type == 1){
-			knight = new Image(new File("testBoard/images/black_knight.png").toString(), area, area, false, false);
+			knight = new Image(new File("Chess/images/black_knight.png").toString(), area, area, false, false);
 			Knight = new ImageView(knight);
 			getChildren().addAll(Knight);
 		}
 		
 		else if( type == 2){
-			knight = new Image(new File("testBoard/images/white_knight.png").toString(), area, area, false, false);
+			knight = new Image(new File("Chess/images/white_knight.png").toString(), area, area, false, false);
 			Knight = new ImageView(knight);
 			getChildren().addAll(Knight);
 		}
@@ -29,7 +29,7 @@ public class PieceKnight extends Pieces {
 			//movement up & down
 			if(x > x1){
 			//move up
-				xx = x1 + (area*2) + 5;
+				xx = x1 + (area*2) + 4;
 			}
 			
 			if(x < x1){
@@ -40,7 +40,7 @@ public class PieceKnight extends Pieces {
 			//turn point
 			if(y > y1){
 				//right move
-				yy = y1 + area + 5;
+				yy = y1 + area + 4;
 			}
 			if(y < y1){
 				//left move
@@ -65,13 +65,13 @@ public class PieceKnight extends Pieces {
 			
 			if(x > x1){
 			//move down
-				xx = x1 + (area*2) + 5;
+				xx = x1 + (area*2) + 4;
 			}
 			
 			//turn point
 			if(y > y1){
 				//right move
-				yy = y1 + area + 5;
+				yy = y1 + area + 4;
 			}
 			if(y < y1){
 				//left move
@@ -87,8 +87,8 @@ public class PieceKnight extends Pieces {
 
 	}
 	
-	public void capture(double x, double y){
-		
+	public void capture(int x, int y){
+		relocate(x*area*10, y*area*10);
 	}
 	
 	public double newX(){
@@ -109,7 +109,8 @@ public class PieceKnight extends Pieces {
 	//private fields
 	private Image knight;
 	private ImageView Knight;
-	private double area = 700/8;
+	private double area = 600/8;
 	private double xx, yy;
 	private double x2, y2;
 }
+
