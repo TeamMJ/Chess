@@ -3,6 +3,8 @@ package Chess;
 import javafx.scene.Group;
 import javafx.scene.transform.Translate;
 
+//class declaration - abstract because we will not want to create a Piece object but we would
+//like to specify the private fields that all pieces should have in addition to their behaviors
 public abstract class Pieces extends Group {
 	
 	public Pieces(int type){
@@ -15,7 +17,7 @@ public abstract class Pieces extends Group {
 
 	
 	//capture method
-	abstract public void capture(double x, double y);
+	abstract public void capture(int x, int y);
 	
 	//methods to return updated x and y
 	abstract public double newX();
