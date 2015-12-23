@@ -10,24 +10,85 @@ public class PieceBishop extends Pieces {
 		super(type);
 		
 		if( type == 1){
-			bishop = new Image(new File("testBoard/images/black_bishop.png").toString(), 87.5, 87.5, false, false);
+			bishop = new Image(new File("Chess/images/black_bishop.png").toString(), area, area, false, false);
 			Bishop = new ImageView(bishop);
 			getChildren().addAll(Bishop);
 		}
 		
 		else if( type == 2){
-			bishop = new Image(new File("testBoard/images/white_bishop.png").toString(), 87.5, 87.5, false, false);
+			bishop = new Image(new File("Chess/images/white_bishop.png").toString(), area, area, false, false);
 			Bishop = new ImageView(bishop);
 			getChildren().addAll(Bishop);
 		}
 	}
 	
-	public void move(){
+	public void move(int type, double x, double y, double x1, double y1){
+		//black
+		if(type == 1){
+			
+			//set moves
+			if(x>x1){
+				xx = x1-(x/area);
+				yy = y1-(y/area);
+			}
+			if(x<x1){
+				xx = x1+(x/area);
+				yy = y1+(y/area);
+			}
+			if(y>y1){
+				xx = x1-(x/area);
+				yy = y1-(y/area);
+			}
+			if(y<y1){
+				xx = x1+(x/area);
+				yy = y1+(y/area);
+			}
+			
+			//set new co-ord		
+			x2 = xx; 
+			y2 = yy;
+			//relocate piece
+			relocate(yy, xx);
+		}
 		
+		//white
+		if(type == 2){
+			//set move
+			if(x<x1){
+				xx = x1-(x/area);
+				yy = y1-(y/area);
+			}
+			if(x>x1){
+				xx = x1+(x/area);
+				yy = y1+(y/area);
+			}
+			if(y<y1){
+				xx = x1-(x/area);
+				yy = y1-(y/area);
+			}
+			if(y>y1){
+				xx = x1+(x/area);
+				yy = y1+(y/area);
+			}
+				
+			//set new co-ord
+			x2 = yy;
+			y2 = xx;
+			relocate(xx, yy);
+		}
+
 	}
 	
-	public void capture(){
-		
+	public void capture(int x, int y){
+		relocate(x*area*10, y*area*10);
+	}
+	
+	public double newX(){
+		return this.x2;
+	}
+	
+	public double newY(){
+		return this.y2;
 	}
 	
 	// overridden version of the relocate method
@@ -40,5 +101,7 @@ public class PieceBishop extends Pieces {
 	//private fields
 	private Image bishop;
 	private ImageView Bishop;
-	private int type;
+	private double area = 600/8;
+	private double xx, yy;
+	private double x2, y2;
 }
