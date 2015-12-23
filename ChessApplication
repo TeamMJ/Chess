@@ -1,60 +1,156 @@
 package Chess;
-
 //Chess  application
 //imports
 import javafx.application.Application;
-import javafx.scene.image.Image;
+import javafx.geometry.Pos;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.stage.StageStyle;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import javafx.util.Duration;
+import javafx.scene.image.Image;
+import javafx.stage.StageStyle;
 
 //class definition
-public class ChessApplication extends Application{
+public class ChessApplication extends Application {
 	
-	// overridden initialize method
 	@Override
 	public void init() {
-		
 		// initialize the layout, create a CustomControl and it to the layout
 		sp_mainlayout = new StackPane();
+		p_layout = new Pane();
 		cc_custom = new CustomControl();
-		
-		//initialize the stack pane and add a custom control to it
 		sp_mainlayout.getChildren().add(cc_custom);
 		
+		// Configure the Label
+        // Bind the timerLabel text property to the timeSeconds property
+		timer1.setText("Label");
+        timer1.textProperty().bind(Minutes1.asString());
+        timer1.setStyle("-fx-font-size: 3.2em;");
+        timer2.textProperty().bind(Minutes2.asString());
+        timer2.setStyle("-fx-font-size: 3.2em;");
+		
+        //assign buttons
+		btn1 = new Button("START");
+		btn1.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		
+		//start timer button
+		btn1.setOnAction(new EventHandler<ActionEvent>() {	
+			//overridden handle method
+			@Override
+			public void handle(ActionEvent event) {
+				   if (time != null && type == 1){
+	                    time1 = Duration.ZERO;
+	                    Minutes1.set(time1.toSeconds());
+	                } 
+				   else {
+	                    time = new Timeline(
+	                        new KeyFrame(Duration.seconds(1),
+	                        new EventHandler<ActionEvent>() {
+	                            @Override
+	                            public void handle(ActionEvent t) {
+	                                Duration duration = ((KeyFrame)t.getSource()).getTime();
+	                                time1 = time1.add(duration);
+	                                Minutes1.set(time1.toSeconds());
+	                            }
+	                        })
+	                    );
+	                    
+	                    time.setCycleCount(900);
+	                    time.play();
+	                }
+				   
+				   if (time2 != null && type == 2){
+	                    Time2 = Duration.ZERO;
+	                    Minutes2.set(Time2.toSeconds());
+	                } 
+				   else {
+	                    time2 = new Timeline(
+	                        new KeyFrame(Duration.seconds(1),
+	                        new EventHandler<ActionEvent>() {
+	                            @Override
+	                            public void handle(ActionEvent t) {
+	                                Duration duration = ((KeyFrame)t.getSource()).getTime();
+	                                Time2 = Time2.add(duration);
+	                                Minutes2.set(Time2.toSeconds());
+	                            }
+	                        })
+	                    );
+	                    time2.setCycleCount(900);
+	                    time2.play();
+	                }
+	                
+				
+			}
+		});		
+	
 	}
 	
 	// overridden start method
 	@Override
 	public void start(Stage primaryStage) {
-		
-		// set the title, remove maximize value, add icon and set scene.
+		// set the title and scene, and show the stage
 		primaryStage.setTitle("Chess Game");
 		primaryStage.initStyle(StageStyle.DECORATED);
 		primaryStage.resizableProperty().setValue(Boolean.FALSE);
 		primaryStage.getIcons().add(new Image("Chess/images/chess_icon.png"));
-		primaryStage.setScene(new Scene(sp_mainlayout, sceneWidth, sceneHeight));
-		primaryStage.show();
 		
+		BorderPane bp = new BorderPane();
+		//set background image
+		String image = "Chess/images/background.png";
+		bp.setStyle("-fx-background-image: url('" + image + "'); ");
+		
+		bp.setPadding(new Insets(8, 8, 8, 8));
+		VBox vb1 = new VBox();
+		VBox vb2 = new VBox();
+		vb1.setAlignment(Pos.CENTER);
+		vb1.getChildren().addAll(timer2);
+		vb1.setStyle("-fx-background-color:  #a65959");
+	    vb2.setAlignment(Pos.CENTER);
+		vb2.getChildren().addAll(timer1);
+		vb2.setStyle("-fx-background-color: #a65959");
+		bp.setCenter(sp_mainlayout);
+		bp.setRight(vb1);
+		bp.setRight(vb2);
+		bp.setLeft(p_layout);
+		bp.setTop(btn1);
+		
+		primaryStage.setScene(new Scene(bp, 655, 655 ));
+		primaryStage.show();
 	}
+
 	// overridden stop method
 	@Override
-	public void stop() {
-		
-	}
+	public void stop(){}
 	
 	// entry point into our program to launch our JavaFX application
 	public static void main(String[] args) {
-		
-		//launches chess game application
 		launch(args);
-		
 	}
 	
 	// private fields for this class
 	private StackPane sp_mainlayout;	//layout which allows items to be positioned on top of each other
-	private CustomControl cc_custom;	//control which has a board
-	private double sceneWidth = 700;	//sets scene width
-	private double sceneHeight = 700;	//sets scene height
+	private Pane p_layout;				//layout which takes captured pieces
+	private CustomControl cc_custom;	//control which has a board and detects mouse and keyboard events
+	private Button btn1;
+    private int type;
+    private Label timer1 = new Label();
+	private Label timer2 = new Label();
+	private Timeline time;
+	private Timeline time2;
+    private DoubleProperty Minutes1 = new SimpleDoubleProperty(), Minutes2 = new SimpleDoubleProperty();
+	private Duration time1 = Duration.ZERO, Time2 = Duration.ZERO;
+	// overridden init method
+	
 }
