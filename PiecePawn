@@ -10,13 +10,13 @@ public class PiecePawn extends Pieces {
 		super(type);
 		
 		if( type == 1){
-			pawn = new Image(new File("testBoard/images/black_pawn.png").toString(), area, area, false, false);
+			pawn = new Image(new File("Chess/images/black_pawn.png").toString(), area, area, false, false);
 			Pawn = new ImageView(pawn);
 			getChildren().addAll(Pawn);
 		}
 		
 		else if( type == 2){
-			pawn = new Image(new File("testBoard/images/white_pawn.png").toString(), area, area, false, false);
+			pawn = new Image(new File("Chess/images/white_pawn.png").toString(), area, area, false, false);
 			Pawn = new ImageView(pawn);
 			getChildren().addAll(Pawn);
 		}
@@ -62,10 +62,9 @@ public class PiecePawn extends Pieces {
 
 	}
 	
-	public void capture(double x, double y){
-		//remove piece
-		
-		
+	public void capture(int x, int y){
+		//convert to integers
+		relocate(x*area*10, y*area*10);
 	}
 	
 	public double newX(){
@@ -87,7 +86,7 @@ public class PiecePawn extends Pieces {
 	//private fields
 	private Image pawn;
 	private ImageView Pawn;
-	private double area = 710/8;
+	private double area = 600/8;
 	private double xx, yy;
 	private double x2;
 	private double y2;
