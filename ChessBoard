@@ -3,7 +3,6 @@ package Chess;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Translate;
 
 class ChessBoard extends Pane {
 	//chess board method
@@ -177,78 +176,80 @@ class ChessBoard extends Pane {
 		int indexY = (int) (x1 / cellWidth); int indexX = (int) (y1 / cellHeight); //old points
 		
 		// if the position is empty, the player and the piece is black
+		//BLACK TURN
 		if(pieces[indexX][indexY] != null && current_player == BLACK && chessboard[indexX][indexY] == BLACK) {
 			//stops overlap of black pieces
-			if(pieces[indexy][indexx] == null){
+			if(chessboard[indexy][indexx] != BLACK){
+				if(indexx > -1 && indexy > -1 && indexx < 8 && indexy < 8){
+					//move piece, set piece location on board, null old location, add.
+					pieces[indexX][indexY].move(BLACK, indexy * cellWidth, indexx * cellHeight, indexX * cellWidth, indexY * cellHeight);
+					//correct board ownership
+					xxB = (int) (pieces[indexX][indexY].newX() / cellWidth);
+					yyB = (int) (pieces[indexX][indexY].newY() / cellHeight);
+				}
 				
-				//move piece, set piece location on board, null old location, add.
-				pieces[indexX][indexY].move(BLACK, indexy * cellWidth, indexx * cellHeight, indexX * cellWidth, indexY * cellHeight);
-				
-				//correct board ownership
-				double x2B = pieces[indexX][indexY].newX();
-				double y2B = pieces[indexX][indexY].newY();
-				int xxB = (int) (x2B / cellWidth);
-				int yyB = (int) (y2B / cellHeight);
-				
+				//System.out.println("black move: "+xxB+", "+yyB);
 				//captures piece
-				if(chessboard[indexy][indexx] == WHITE && pieces[indexy][indexx] != null){
-					pieces[indexX][indexY].capture(x2B, y2B);
+				if(chessboard[indexy][indexx] == WHITE && pieces[xxB][yyB] != null){
+					pieces[xxB][yyB].capture(xxB, yyB);
+					//sets new co-ord
 					pieces[xxB][yyB] = pieces[indexX][indexY];
 					chessboard[xxB][yyB] = BLACK;
+					//empties old
+					pieces[indexX][indexY] = null;
+					chessboard[indexX][indexY] = EMPTY;
+					//set new player
+					current_player = WHITE;
 				}
 				//sets piece to empty
-				else{
+				else if(pieces[xxB][yyB] == null && chessboard[xxB][yyB] != BLACK && xxB > -1 && yyB > -1 && xxB < 8 && yyB < 8){
+					//sets new co-ord
 					pieces[xxB][yyB] = pieces[indexX][indexY];
 					chessboard[xxB][yyB] = BLACK;
+					//empties old
+					pieces[indexX][indexY] = null;
+					chessboard[indexX][indexY] = EMPTY;
+					//set new player
+					current_player = WHITE;
 				}
-				
-				//empties old
-				pieces[indexX][indexY] = null;
-				chessboard[indexX][indexY] = EMPTY;
-				
-				//set new player
-				current_player = WHITE;
-				
 			}
-			//captures white pieces
-			if(chessboard[indexy][indexx] == WHITE && pieces[indexy][indexx] != null){
-				//pieces[indexX][indexY].capture(pieces[indexy][indexx]);
-			}
-			else{}
-			
 		}
-		
+		//WHITE TURN
 		else if(pieces[indexX][indexY] != null && current_player == WHITE && chessboard[indexX][indexY] == WHITE) {
 			//stops overlap of white pieces
 			if(chessboard[indexy][indexx] != WHITE){
-				//move piece, set piece location on board, null old location, add.
-				pieces[indexX][indexY].move(WHITE, indexx * cellWidth, indexy * cellHeight, indexX * cellWidth, indexY * cellHeight);
-				//correct board ownership
-				double x2W = pieces[indexX][indexY].newX();
-				double y2W = pieces[indexX][indexY].newY();
-				int xxW = (int) (x2W / cellWidth);
-				int yyW = (int) (y2W / cellHeight);
+				if(indexx > -1 && indexy > -1 && indexx < 8 && indexy < 8){
+					//move piece, set piece location on board, null old location, add.
+					pieces[indexX][indexY].move(WHITE, indexx * cellWidth, indexy * cellHeight, indexX * cellWidth, indexY * cellHeight);
+					//correct board ownership
+					xxW = (int) (pieces[indexX][indexY].newX() / cellWidth);
+					yyW = (int) (pieces[indexX][indexY].newY() / cellHeight);
+				}
 				
+				//System.out.println("White move: "+xxW+", "+yyW);
 				//captures piece
-				if(chessboard[indexy][indexx] == BLACK && pieces[indexy][indexx] != null){
-					pieces[indexX][indexY].capture(x2W, y2W);
+				if(chessboard[xxW][yyW] == BLACK && pieces[xxW][yyW] != null){
+					pieces[xxW][yyW].capture(xxW, yyW);
+					//sets new co-ord
 					pieces[xxW][yyW] = pieces[indexX][indexY];
 					chessboard[xxW][yyW] = WHITE;
+					//set new player
+					current_player = BLACK;
 				}
 				//sets piece
-				else{
+				else if(pieces[xxW][yyW] == null && chessboard[xxW][yyW] != WHITE && xxW > -1 && yyW > -1 && xxW < 8 && yyW < 8){
+					//sets new co-ord
 					pieces[xxW][yyW] = pieces[indexX][indexY];
 					chessboard[xxW][yyW] = WHITE;
+					//empties old
+					pieces[indexX][indexY] = null;
+					chessboard[indexX][indexY] = EMPTY;
+					//set new player
+					current_player = BLACK;
 				}
 				
-				//empties old
-				pieces[indexX][indexY] = null;
-				chessboard[indexX][indexY] = EMPTY;
-				
-				//set new player
-				current_player = BLACK;
-				
 			}
+			//NULL MOVE
 			else{}
 		}
 	}
@@ -365,12 +366,14 @@ class ChessBoard extends Pane {
 	private Rectangle rectangle; //rectangle
 	
 	//board variables
-	private double sceneWidth = 710; //screen size
-	private double sceneHeight = 710; //screen size
+	private double sceneWidth = 600; //screen size
+	private double sceneHeight = 600; //screen size
 	private int r = 8; //row size
 	private int c = 8; //col size
 	private double cellWidth = sceneWidth / r;
 	private double cellHeight = sceneHeight / c;
+	
+	private int xxB, yyB, xxW, yyW;
 	
 	//place variables
 	private int current_player; // int to set player
