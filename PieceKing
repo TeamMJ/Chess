@@ -10,24 +10,91 @@ public class PieceKing extends Pieces {
 		super(type);
 		
 		if( type == 1){
-			king = new Image(new File("testBoard/images/black_king.png").toString(), 87.5, 87.5, false, false);
+			king = new Image(new File("Chess/images/black_king.png").toString(), area, area, false, false);
 			King = new ImageView(king);
 			getChildren().addAll(King);
 		}
 		
 		else if( type == 2){
-			king = new Image(new File("testBoard/images/white_king.png").toString(), 87.5, 87.5, false, false);
+			king = new Image(new File("Chess/images/white_king.png").toString(), area, area, false, false);
 			King = new ImageView(king);
 			getChildren().addAll(King);
 		}
 	}
 	
-	public void move(){
+	public void move(int type, double x, double y, double x1, double y1){
+		//black
+		if(type == 1){
+			
+			//set move
+			if(x1 > 0.0 && x1 < 100.0){
+				xx = x1 + area + 1;
+				yy = y1;
+			}
+			else{
+				if(x<x1){
+					xx = x1-area;
+					yy = y1;
+				}
+				if(x>x1){
+					xx = x1+area;
+					yy = y1;
+				}
+				if(y<y1){
+					xx = x1;
+					yy = y1-area;
+				}
+				if(y>y1){
+					xx = x1;
+					yy = y1+area;
+				}
+			}
+			
+			//set new co-ord		
+			x2 = xx; 
+			y2 = yy;
+			//relocate piece
+			relocate(yy, xx);
+		}
+		
+		//white
+		if(type == 2){
+			//set moves
+			if(x>x1){
+				xx = x1;
+				yy = y1-area;
+			}
+			if(x<x1){
+				xx = x1;
+				yy = y1+area;
+			}
+			if(y>y1){
+				xx = x1-area;
+				yy = y1;
+			}
+			if(y<y1){
+				xx = x1+area;
+				yy = y1;
+			}
+				
+			//set new co-ord
+			x2 = xx;
+			y2 = yy;
+			relocate(yy, xx);
+		}
 		
 	}
 	
-	public void capture(){
-		
+	public void capture(int x, int y){
+		relocate(x*area*10, y*area*10);
+	}
+	
+	public double newX(){
+		return x2;
+	}
+	
+	public double newY(){
+		return y2;
 	}
 	
 	// overridden version of the relocate method
@@ -40,5 +107,8 @@ public class PieceKing extends Pieces {
 	//private fields
 	private Image king;
 	private ImageView King;
-	private int type;
+	private double area = 600/8;
+	private double xx, yy;
+	private double x2, y2;
 }
+
